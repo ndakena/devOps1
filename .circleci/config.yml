@@ -1,120 +1,17 @@
 version: 2.1
 orbs:
-    node: circleci/node@2.0.2
-    aws-cli: circleci/aws-cli@1.1.0
-    slack: circleci/slack@3.4.2
+  node: circleci/node@1.1.6
 jobs:
-    # The build phase
-    frontend-build-phase:
-      executor:
-        name: node/default
-        tag: '13.8.0'
-      steps:
-          - checkout
-          - run: cd frontend && npm i && npm run build
-    backend-build-phase:
-      executor:
-        name: node/default
-        tag: '13.8.0'
-      steps:
-          - checkout
-          - run: cd backend && npm i && npm run build
-    # The test Phase
-    frontend-test-phase:
-      executor:
-        name: node/default
-        tag: '13.8.0'
-      steps:
-          - checkout
-          - run: cd frontend && npm install --save oauth-sign && npm run test
-    backend-test-phase:
-          executor:
-              name: node/default
-              tag: '13.8.0'
+  build-and-test:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
           steps:
-              - checkout
-              - run: cd backend && npm i && npm run test
-    # Analyze phase
-    backend-analyze-phase:
-          executor:
-              name: node/default
-              tag: '13.8.0'
-          steps:
-              - checkout
-              - run: cd backend && npm i && npm audit fix --audit-level=critical --force
-    frontend-analyze-phase:
-          executor:
-              name: node/default
-              tag: '13.8.0'
-          steps:
-              - checkout
-              - run: cd frontend && npm i && npm audit --audit-level=critical --force
-
-    # AWS infrastructure
-    create_infrastructure:
-      executor: aws-cli/default
-      steps:
-        - checkout
-        - aws-cli/setup
-        - run:
-            name: Ensure backend infrastructure exist
-            command: |
-              pwd
-              ls -la
-              aws cloudformation deploy \
-                --template-file template.yml \
-                --stack-name my-stack
-    # backend ec2 infrastructure
-    backend-ec2-create:
-      docker:
-        - image: amazon/aws-cli
-      steps:
-        - checkout
-        - run:
-            name: Creating the backend infrastructure
-            command: |
-              aws cloudformation deploy \
-                --template-file .circleci/files/backend.yml \
-                --stack-name my-backend-stack
-    # front bucket infrastructure infrastructure
-    frontend-s3-bucket-create:
-      docker:
-        - image: amazon/aws-cli
-      steps:
-        - checkout
-        - run:
-            name: Creating the frontend infrastructure
-            command: |
-              aws cloudformation deploy \
-                --template-file .circleci/files/frontend.yml \
-                --stack-name my-s3-bucket-stack
-    print_env:
-       docker:
-           - image: cimg/base:2020.01
-       steps:
-        - checkout
-        - run:
-            name: "echo an env var that is part of our project"
-            command: |
-              echo $AWS_DEFAULT_REGION # this env var must be swt within the project
-    configure_infrastructure_test:
-       docker:
-          - image: python:3.7-alpine3.11
-       steps:
-        - checkout
-        - add_ssh_keys:
-            fingerprints: ["06:7c:db:71:49:2f:03:36:60:08:d2:fd:33:6f:17:d3"] # You can get this ID in the section where you registered the SSH Key
-        - run:
-            name: Install dependencies
-            command: |
-              apk add --update ansible # install the dependencies needed for your playbook
-        - run:
-            name: Configure server
-            command: |
-              ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/roles/print/tasks/main.yml
- ## Workflows for pipelines
+            - run: npm install
+            - run: npm test
 workflows:
-    All-pipeline-phases:
-        jobs:
-     #      - frontend-s3-bucket-create
-            - configure_infrastructure_test
+    build-and-test:
+      jobs:
+        - build-and-test
