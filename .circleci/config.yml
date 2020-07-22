@@ -111,7 +111,7 @@ jobs:
         - run:
             name: Configure server
             command: |
-              ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/roles/configure-server/tasks/main.yml
+              ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/roles/configure-server/main.yml
  ## Workflows for pipelines
 workflows:
     All-pipeline-phases:
