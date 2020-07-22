@@ -1,42 +1,45 @@
----
-- name: "upgrade packages."
-  become: true
-  apt:
+--- 
+- 
+  apt: 
     upgrade: "yes"
-
-- name: "install dependencies."
   become: true
-  apt:
-    name: ["nodejs", "npm"]
+  name: "upgrade packages."
+- 
+  apt: 
+    name: 
+      - nodejs
+      - npm
     state: latest
-    update_cache: yes
-
-- name: "install pm2"
+    update_cache: true
   become: true
-  npm:
+  name: "install dependencies."
+- 
+  become: true
+  name: "install pm2"
+  npm: 
+    global: true
     name: pm2
-    global: yes
-    production: yes
+    production: true
     state: present
-
-- name: Set environmental variables
-  environment:    
+- 
+  environment: 
     ENVIRONMENT: production
     TYPEORM_CONNECTION: postgres
-    TYPEORM_MIGRATIONS_DIR: ./src/migrations
+    TYPEORM_DATABASE: circleci-db
     TYPEORM_ENTITIES: ./src/modules/domain/**/*.entity.ts
-    TYPEORM_MIGRATIONS: ./src/migrations/*.ts
     TYPEORM_HOST: circleci-db
+    TYPEORM_MIGRATIONS: ./src/migrations/*.ts
+    TYPEORM_MIGRATIONS_DIR: ./src/migrations
+    TYPEORM_PASSWORD: CircleciDB
     TYPEORM_PORT: 5432
     TYPEORM_USERNAME: circleci-db
-    TYPEORM_PASSWORD: CircleciDB
-    TYPEORM_DATABASE: circleci-db
-
-- name: Clone git repo
-   git:
-    repo: https://github.com/ndakena/Give-your-app-supper-powers.git
+  name: "Set environmental variables"
+- 
+  git: 
     dest: /src/project
+    repo: "https://github.com/ndakena/Give-your-app-supper-powers.git"
     version: master
-
-- name: Run backend
-  shell: cd /src/project/backend &&  npm i && pm2 startup && pm2 start npm --name "backend" -- start
+  name: "Clone git repo"
+- 
+  name: "Run backend"
+  shell: "cd /src/project/backend &&  npm i && pm2 startup && pm2 start npm --name \"backend\" -- start"
