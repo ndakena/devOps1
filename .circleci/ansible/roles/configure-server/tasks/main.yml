@@ -1,6 +1,7 @@
 --- 
 - name: "configuration play."
   hosts: '*'
+- name: 'user definition'
   user: ubuntu
   gather_facts: false
   vars:
