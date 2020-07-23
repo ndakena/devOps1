@@ -111,7 +111,7 @@ jobs:
         - run:
             name: Configure server
             command: |
-              ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/roles/main.yml --private-key udacity.pem && yes
+              ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/roles/configure-server/main.yml --private-key udacity.pem && yes
  ## Workflows for pipelines
 workflows:
     All-pipeline-phases:
