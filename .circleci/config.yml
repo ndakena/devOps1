@@ -117,4 +117,5 @@ workflows:
     All-pipeline-phases:
         jobs:
      #      - frontend-s3-bucket-create
-            - configure_infrastructure_test
+            - backend-ec2-create
+           # - configure_infrastructure_test
