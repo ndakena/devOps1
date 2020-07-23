@@ -1,6 +1,8 @@
 --- 
 - name: "configuration play."
   hosts: '*'
+
+- name: "roles"
   roles:
    - configure-server
 - name: 'user definition'
