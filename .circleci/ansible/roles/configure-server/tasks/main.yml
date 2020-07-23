@@ -1,6 +1,8 @@
 --- 
 - name: "configuration play."
   hosts: '*'
+  roles:
+   - configure-server
 - name: 'user definition'
   user: ubuntu
   gather_facts: false
