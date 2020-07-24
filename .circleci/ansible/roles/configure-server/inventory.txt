@@ -1,3 +1,0 @@
-
-[webservers]
-ec2-54-176-192-255.us-west-1.compute.amazonaws.com
