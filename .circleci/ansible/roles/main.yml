@@ -16,12 +16,12 @@
       register: check_python
 
     - name: Install Python
-      raw: yum -y install python
+      raw: yum -y install python36
       when: check_python.rc != 0
-      
+
     - name: "install python for Ansible."
       become: true
-      raw: (apt -y update && apt install -y python3) || test -e /usr/bin/python3
+      raw: (apt -y update && apt install -y python36) || test -e /usr/bin/python36
       changed_when: false
 
     - setup:
