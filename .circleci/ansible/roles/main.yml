@@ -2,8 +2,12 @@
 - hosts: all
   remote_user: root
   gather_facts: false
+  vars:
+   - ansible_python_interpreter: /usr/bin/python36
+   - ansible_host_key_checking: false
+   - ansible_stdout_callback: yaml
+ 
   tasks:
-
   - name: Check for Python
     raw: test -e /usr/bin/python
     changed_when: false
