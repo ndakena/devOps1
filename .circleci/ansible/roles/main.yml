@@ -1,24 +1,22 @@
 ---
-- name: "configuration play."
-  hosts: webservers
-  user: ubuntu
+- hosts: webservers
+  remote_user: ubuntu
   gather_facts: false
   vars:
-    - ansible_python_interpreter: /usr/bin/python36
-    - ansible_host_key_checking: false
-    - ansible_stdout_callback: yaml
+   - ansible_host_key_checking: false
+   - ansible_stdout_callback: yaml
+ 
+  tasks:
+  - name: Check for Python
+    raw: test -e /usr/bin/python
+    changed_when: false
+    failed_when: false
+    register: check_python
 
-  pre_tasks:
-    - name: Check for Python
-      raw: test -e /usr/bin/python
-      changed_when: false
-      failed_when: false
-      register: check_python
+  - name: Install Python
+    raw: yum -y install python
+    when: check_python.rc != 0
 
-    - name: Install Python
-      raw: yum -y install python
-      when: check_python.rc != 0
-
-    - setup:
+  - setup:
   roles:
     - configure-server
