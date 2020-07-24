@@ -118,4 +118,4 @@ workflows:
         jobs:
      #      - frontend-s3-bucket-create
             - backend-ec2-create
-           # - configure_infrastructure_test
+            - configure_infrastructure_test
