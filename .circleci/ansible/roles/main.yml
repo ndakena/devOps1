@@ -4,7 +4,7 @@
   user: ubuntu
   gather_facts: false
   vars:
-    - ansible_python_interpreter: /usr/bin/python3
+    - ansible_python_interpreter: /usr/bin/python36
     - ansible_host_key_checking: false
     - ansible_stdout_callback: yaml
 
@@ -15,14 +15,9 @@
       failed_when: false
       register: check_python
 
-    - name: Install Python
+    - name: Install Python36
       raw: yum -y install python36
       when: check_python.rc != 0
-
-    - name: "install python for Ansible."
-      become: true
-      raw: (apt -y update && apt install -y python36) || test -e /usr/bin/python36
-      changed_when: false
 
     - setup:
   roles:
