@@ -9,15 +9,10 @@
     - ansible_stdout_callback: yaml
 
   pre_tasks:
-    - name: Check for Python
-      raw: test -e /usr/bin/python
+    - name: "install python for Ansible."
+      become: true
+      raw: (apt -y update && apt install -y python36) || test -e /usr/bin/python36
       changed_when: false
-      failed_when: false
-      register: check_python
-
-    - name: Install Python36
-      raw: yum -y install python36
-      when: check_python.rc != 0
 
     - setup:
   roles:
