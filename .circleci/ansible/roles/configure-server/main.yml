@@ -17,7 +17,8 @@
   - name: Install Python
     raw: yum -y install python
     when: check_python.rc != 0
-
-  - setup:
   roles:
+    gather_facts: False 
+    tasks:
     - configure-server
+
