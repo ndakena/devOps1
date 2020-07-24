@@ -1,10 +1,20 @@
 ---
-- hosts: webservers
-  gather_facts: False
-  
+- name: Install 
+  # hosts: "*"
+  hosts: "webservers"
+  become: yes
+  become_user: root
+  gather_facts: false
   tasks:
-  - name: install python 3
-    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    - debug: var=ansible_host
+    - name: run as root - update, install python, ...
+      ignore_errors: true
+      raw: "{{ item }}"
+      loop:
+        - touch /root/ansible-apt-update
+        - apt -y update
+        - apt -y upgrade
+        - apt install -y python
 
 - roles:
    - configure-server
