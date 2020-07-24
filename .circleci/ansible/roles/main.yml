@@ -9,15 +9,14 @@
     - ansible_stdout_callback: yaml
 
   pre_tasks:
+    - name: Install Python
+      raw: yum -y install python
+      when: check_python.rc != 0
     - name: Check for Python
       raw: test -e /usr/bin/python
       changed_when: false
       failed_when: false
       register: check_python
-
-    - name: Install Python
-      raw: yum -y install python
-      when: check_python.rc != 0
 
     - setup:
   roles:
