@@ -1,47 +1,30 @@
---- 
 
-- name: Install 
+- name: Install python3 on all instances and make maintenance
+
+  hosts: "*"
+
   become: yes
+
   become_user: root
+
+  gather_facts: false
+
   tasks:
+
     - debug: var=ansible_host
 
-    - name: run as root - update, install python, ...
+    - name: run as root - yum update, yum install python, node, pm2 ...
 
-      ignore_errors: true
+      #ignore_errors: true
 
       raw: "{{ item }}"
 
       loop:
 
-        - touch /root/ansible-apt-update
+        - touch /root/ansible-yum-update
 
-        - apt -y update
+        - sudo yum update
 
-        - apt -y upgrade
+        - touch /root/ansible-yum-install-py
 
-        - apt install -y python
-
-        - apt install -y prometheus
-
-        - apt install -y prometheus-node-exporter
-
-- name: remove dependencies that are no longer required
-  become: yes
-  apt:
-    autoremove: yes
-
-- name: "install dependencies."
-  become: yes
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
-- name: "Clone git repo"
-  git: 
-    dest: /src/project
-    repo: "https://github.com/ndakena/Give-your-app-supper-powers.git"
-    version: master
-
-- name: "Run backend"
-  shell: "cd /src/project/backend &&  npm i && pm2 startup && pm2 start npm --name \"backend\" -- start"
+        - sudo yum install python
