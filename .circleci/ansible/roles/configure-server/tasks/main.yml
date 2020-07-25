@@ -1,6 +1,5 @@
 --- 
 - name: "configuration play."
-  hosts: '*'
 - 
   apt: 
     upgrade: "yes"
