@@ -103,7 +103,7 @@ jobs:
             command: |
               aws cloudformation deploy \
                 --template-file .circleci/files/frontend.yml \
-                --stack-name my-s3-bucket-stack-1
+                --stack-name my-s3-bucket-stack
     print_env:
        docker:
            - image: cimg/base:2020.01
