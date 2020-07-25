@@ -1,26 +1,32 @@
---- 
-- name: "configuration play."
-- 
-  apt: 
-    upgrade: "yes"
-  become: true
-  name: "upgrade packages."
-- 
-  apt: 
-    name: 
-      - nodejs
-      - npm
+---
+- name: "update apt packages."
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: "upgrade packages"
+  become: yes
+  apt:
+    upgrade: yes
+
+- name: remove dependencies that are no longer required
+  become: yes
+  apt:
+    autoremove: yes
+
+- name: "install dependencies."
+  become: yes
+  apt:
+    name: ["nodejs", "npm"]
     state: latest
-    update_cache: true
-  become: true
-  name: "install dependencies."
-- 
-  become: true
-  name: "install pm2"
-  npm: 
-    global: true
+    update_cache: yes
+
+- name: "install pm2"
+  become: yes
+  npm:
     name: pm2
-    production: true
+    global: yes
+    production: yes
     state: present
 - 
   git: 
