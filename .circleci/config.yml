@@ -56,7 +56,7 @@ jobs:
         tag: '13.8.0'
       steps:
           - checkout
-          - run: cd backend && npm run migrations
+          - run: cd backend && npm install typescript -g && npm run migrations
 
     # AWS infrastructure
     create_infrastructure:
