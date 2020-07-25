@@ -49,9 +49,8 @@ jobs:
           steps:
               - checkout
               - run: cd frontend && npm i && npm audit --audit-level=critical --force
-              - run:
-              name: Slack notifications
-              command: exit 0
+                name: Slack notifications
+                command: exit 0
               - slack/status:
                 channel: $SLACK_CHANNEL
                   failure_message: "Failure: build [$CIRCLE_BUILD_NUM]($CIRCLE_BUILD_URL) of [<<pipeline.git.branch>>](<<pipeline.project.git_url>>/tree/<<pipeline.git.branch>>) _($CIRCLE_USERNAME)_"
