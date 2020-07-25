@@ -30,8 +30,8 @@
         - name: "Run backend"
           shell: "cd /src/project/backend &&  npm i && pm2 startup && pm2 start npm --name \"backend\" -- start"
         
-        name: setup environmental variables  
-        copy:
-          src: backend/.env
-          dest: ~/udaPeople/backend/.env
-          force: yes
+        - name: setup environmental variables  
+          copy:
+           src: backend/.env
+           dest: ~/udaPeople/backend/.env
+           force: yes
