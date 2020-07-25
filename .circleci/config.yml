@@ -56,8 +56,9 @@ jobs:
         tag: '13.8.0'
       steps:
           - checkout
-          - run: cd backend && npm i && sudo npm install typescript -g
-                 npm run migrations > migrate-evidence.txt
+          - run: cd backend && npm i && sudo npm install typescript -g   
+          - run: npm run migrations > migrate-evidence.txt
+                 
 
     # AWS infrastructure
     create_infrastructure:
@@ -112,11 +113,11 @@ jobs:
        steps:
         - checkout
         - add_ssh_keys:
-            fingerprints: ["65:10:71:b1:c8:38:04:7a:fc:e0:36:b2:86:6d:e5:1e"] # You can get this ID in the section where you registered the SSH Key
+            fingerprints: ["65:10:71:b1:c8:38:04:7a:fc:e0:36:b2:86:6d:e5:1e"]
         - run:
             name: Install dependencies
             command: |
-              apk add --update ansible # install the dependencies needed for your playbook
+              apk add --update ansible
         - run:
             name: Configure server
             command: |
