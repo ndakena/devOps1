@@ -129,5 +129,5 @@ workflows:
             - configure_infrastructure_test
             - database-migration-phase:
                 requires:
-                  configure_infrastructure_test
+                  - configure_infrastructure_test
 
