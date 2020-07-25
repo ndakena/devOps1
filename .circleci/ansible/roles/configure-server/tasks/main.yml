@@ -1,5 +1,6 @@
 ---
 - name: "update apt packages."
+  host: webservers
   become: yes
   apt:
     update_cache: yes
