@@ -2,13 +2,12 @@
 - name: "update apt packages."
   host: webservers
   become: yes
-  apt:
-    update_cache: yes
+  update_cache: yes
 
 - name: "upgrade packages"
   become: yes
-  apt:
-    upgrade: yes
+  host: webservers
+  upgrade: yes
 
 - name: remove dependencies that are no longer required
   become: yes
