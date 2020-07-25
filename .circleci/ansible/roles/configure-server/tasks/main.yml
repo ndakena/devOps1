@@ -1,7 +1,7 @@
 - name: Run npm
-  # hosts: "*"
   hosts: webservers
-  gather_facts: false
+  become: yes
+  become_user: root
   tasks:
     - debug: var=ansible_host
     - name: Run npm
