@@ -6,26 +6,19 @@
   gather_facts: false
   tasks:
     - debug: var=ansible_host
-    - name: run as root - update, install python, ...
+    - name: install all the necessary
       ignore_errors: true
       raw: "{{ item }}"
       loop:
-        - touch /root/ansible-apt-update
         - apt -y update
         - apt -y upgrade
         - apt install -y python
-        - echo $PATH > path1.txt
-        # npm PATH:
         - . ~/.nvm/nvm.sh
-        - echo $PATH > path2.txt
-        - npm -v > npm.txt
         - npm install pm2 -g
-        # npm run start
         - pm2 start "npm start" --name backend
-        - echo $PATH > path3.txt
-        #exit 0
+
         - args:
-           chdir: ~/uda-deploy/backend/
+           chdir: ~/udaPeople/backend/
            executable: /bin/bash
  
         - git: 
@@ -36,3 +29,9 @@
  
         - name: "Run backend"
           shell: "cd /src/project/backend &&  npm i && pm2 startup && pm2 start npm --name \"backend\" -- start"
+        
+        name: setup environmental variables  
+        copy:
+          src: backend/.env
+          dest: ~/udaPeople/backend/.env
+          force: yes
