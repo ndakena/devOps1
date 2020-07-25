@@ -1,6 +1,5 @@
 ---
 - name: Install 
-  # hosts: "*"
   hosts: "webservers"
   become: yes
   become_user: root
