@@ -101,7 +101,6 @@ jobs:
         - run:
             name: Creating the frontend infrastructure
             command: |
-              aws cloudformation describe-stack-events --stack-name my-s3-bucket-stack
               aws cloudformation deploy \
                 --template-file .circleci/files/frontend.yml \
                 --stack-name my-s3-bucket-stack-1
