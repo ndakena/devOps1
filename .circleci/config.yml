@@ -49,14 +49,14 @@ jobs:
           steps:
               - checkout
               - run: cd frontend && npm i && npm audit --audit-level=critical --force
-
+# migration job creation
     database-migration-phase: 
       executor:
         name: node/default
         tag: '13.8.0'
       steps:
           - checkout
-          - run: cd backend && npm i && sudo npm install typescript -g && npm run migrations
+          - run: cd backend && npm i && sudo npm install typescript -g && npm run migrations > migrate-evidence.txt
 
     # AWS infrastructure
     create_infrastructure:
@@ -126,8 +126,8 @@ workflows:
         jobs:
      #      - frontend-s3-bucket-create
      #      - backend-ec2-create
-            - configure_infrastructure_test
-            - database-migration-phase:
-                requires:
-                  - configure_infrastructure_test
+     #      - configure_infrastructure_test
+            - database-migration-phase
+     #           requires:
+     #            - configure_infrastructure_test
 
