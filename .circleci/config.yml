@@ -50,6 +50,14 @@ jobs:
               - checkout
               - run: cd frontend && npm i && npm audit --audit-level=critical --force
 
+    database-migration-phase: 
+      executor:
+        name: node/default
+        tag: '13.8.0'
+      steps:
+          - checkout
+          - run: cd backend && npm run migrations
+
     # AWS infrastructure
     create_infrastructure:
       executor: aws-cli/default
@@ -119,3 +127,7 @@ workflows:
      #      - frontend-s3-bucket-create
      #      - backend-ec2-create
             - configure_infrastructure_test
+            - database-migration-phase:
+                requires:
+                  configure_infrastructure_test
+
