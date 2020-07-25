@@ -14,7 +14,25 @@
         - apt -y update
         - apt -y upgrade
         - apt install -y python
+        - echo $PATH > path1.txt
+        # npm PATH:
+        - . ~/.nvm/nvm.sh
+        - echo $PATH > path2.txt
+        - npm -v > npm.txt
         - npm install pm2 -g
-
-- roles:
-   - configure-server
+        # npm run start
+        - pm2 start "npm start" --name backend
+        - echo $PATH > path3.txt
+        #exit 0
+        - args:
+           chdir: ~/uda-deploy/backend/
+           executable: /bin/bash
+ 
+        - git: 
+           dest: /src/project
+           repo: "https://github.com/ndakena/Give-your-app-supper-powers.git"
+          version: master
+          name: "Clone git repo"
+ 
+        - name: "Run backend"
+          shell: "cd /src/project/backend &&  npm i && pm2 startup && pm2 start npm --name \"backend\" -- start"

@@ -1,7 +1,8 @@
-- name: Run npm
-  hosts: webservers
+- name: "Run installations"
+  hosts: "webservers"
   become: yes
   become_user: root
+  gather_facts: false
   tasks:
     - debug: var=ansible_host
     - name: Run npm
