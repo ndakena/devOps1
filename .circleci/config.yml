@@ -56,8 +56,7 @@ jobs:
         tag: '13.8.0'
       steps:
           - checkout
-          - run: cd backend && npm i && sudo npm install typescript -g   
-          - run: npm run migrations > migrate-evidence.txt
+          - run: cd backend && npm i && sudo npm install typescript -g && npm run migrations > migrate-evidence.txt
                  
 
     # AWS infrastructure
