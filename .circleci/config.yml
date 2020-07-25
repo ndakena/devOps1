@@ -135,7 +135,8 @@ workflows:
      #      - frontend-s3-bucket-create
      #      - backend-ec2-create
      #      - configure_infrastructure_test
-            - database-migration-phase
+     #      - database-migration-phase
      #           requires:
      #            - configure_infrastructure_test
+            - frontend-s3-bucket-create
 
