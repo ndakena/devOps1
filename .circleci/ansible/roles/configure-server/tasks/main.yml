@@ -1,33 +1,25 @@
----
-- name: "update apt packages."
-  host: webservers
-  become: yes
-  update_cache: yes
-
-- name: "upgrade packages"
-  become: yes
-  host: webservers
-  upgrade: yes
-
-- name: remove dependencies that are no longer required
-  become: yes
-  apt:
-    autoremove: yes
-
-- name: "install dependencies."
-  become: yes
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
-
-- name: "install pm2"
-  become: yes
-  npm:
-    name: pm2
-    global: yes
-    production: yes
-    state: present
+- name: Run npm
+  # hosts: "*"
+  hosts: webservers
+  gather_facts: false
+  tasks:
+    - debug: var=ansible_host
+    - name: Run npm
+      ignore_errors: true
+      shell: |
+        echo $PATH > path1.txt
+        # npm PATH:
+        . ~/.nvm/nvm.sh
+        echo $PATH > path2.txt
+        npm -v > npm.txt
+        npm install pm2 -g
+        # npm run start
+        pm2 start "npm start" --name backend
+        echo $PATH > path3.txt
+        #exit 0
+      args:
+        chdir: ~/uda-deploy/backend/
+        executable: /bin/bash
 - 
   git: 
     dest: /src/project
