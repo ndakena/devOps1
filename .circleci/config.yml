@@ -49,7 +49,7 @@ jobs:
           steps:
               - checkout
               - run: cd frontend && npm i && npm audit --audit-level=critical --force
-                        - run:
+              - run:
               name: Slack notifications
               command: exit 0
               - slack/status:
